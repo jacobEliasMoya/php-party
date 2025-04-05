@@ -1,5 +1,5 @@
 <!-- 
-ALSO WORKS WITH REVIEWS IF DATA IS FILLED
+ALSO WORKS WITH REVIEWS IF DATA IS FILLED WITHIN CARD SHORTCODE
 
 [breakout_card_grid image_src="bg.jpg" sub_header="sub_header" header="header"]
     [breakout_card header="header" reviews="" pid=""] content [/breakout_card]
@@ -26,6 +26,7 @@ function breakout_card_shortcode($atts, $content = null) {
     $breakout_card_grid_cards[] = [
         'header'  => $atts['header'],
         'reviews'  => $atts['reviews'],
+        'pid'  => $atts['pid'],
         'content' => do_shortcode($content),
     ];
 
@@ -58,7 +59,7 @@ function breakout_card_grid_shortcode($atts, $content = null) {
                 <h2><?php echo esc_html($atts['header']); ?></h2>
             <?php endif; ?>
 
-            <div class="row container-fluid justify-content-center mt-4">
+            <div class="row container-fluid justify-content-center">
                 <?php foreach ($breakout_card_grid_cards as $card): ?>
                     <div class="w-100">
                         <div class="wrap">
@@ -72,7 +73,7 @@ function breakout_card_grid_shortcode($atts, $content = null) {
                                 <h3><?php echo esc_html($card['header']); ?></h3>
                             <?php endif; ?>
 
-                            <div><?php echo wp_kses_post($card['content']); ?></div>
+                            <?php echo wp_kses_post($card['content']); ?>
 
                             <?php if (!empty($card['pid'])): ?>
                                 <a class="btn" title="Leave a review!" href="https://search.google.com/local/writereview?placeid=<?php echo esc_html($card['pid']); ?>" target="_blank" rel="noopener noreferrer">Leave a review</a>
