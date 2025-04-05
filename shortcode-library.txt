@@ -1,0 +1,6 @@
+
+ACCORDION
+[accordion_section title="title"] content [/accordion_section]
+
+BREAKOUT
+[breakout_section sub_title="sub_title" title="title"] content [/breakout_section]
