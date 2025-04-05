@@ -1,16 +1,16 @@
 <!-- custom shortcode template sections
 
-[breakout_section sub_title="{{sub_title}}" title="{{title}}"] 
+[breakout_h2_simple sub_title="{{sub_title}}" title="{{title}}"] 
 
 <p>{{content}}</p> 
 
-[/breakout_section]
+[/breakout_h2_simple]
 
 -->
 
 <?php
 
-function breakout_section_shortcode($atts, $content = null) {
+function breakout_h2_simple($atts, $content = null) {
     $atts = shortcode_atts([
         'sub_title' => '',
         'title' => '',
@@ -18,14 +18,14 @@ function breakout_section_shortcode($atts, $content = null) {
 
     ob_start();
     ?>
-    <div class="breakout text-center lt invert">
-        <div class="medium-wrapper not visible btm mt-4">
+    <div class="breakout text-center lt">
+        <div class="medium-wrapper ">
             <?php if (!empty($atts['sub_title'])): ?>
                 <b class="spaced mb-4"><?php echo esc_html($atts['sub_title']); ?></b>
             <?php endif; ?>
 
             <?php if (!empty($atts['title'])): ?>
-                <h1><?php echo esc_html($atts['title']); ?></h1>
+                <h2><?php echo esc_html($atts['title']); ?></h2>
             <?php endif; ?>
 
             <?php if (!empty($content)): ?>
@@ -37,6 +37,6 @@ function breakout_section_shortcode($atts, $content = null) {
     return ob_get_clean();
 }
 
-add_shortcode('breakout_section', 'breakout_section_shortcode');
+add_shortcode('breakout_h2_simple', 'breakout_h2_simple');
 
 ?>
