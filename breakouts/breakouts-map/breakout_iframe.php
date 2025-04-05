@@ -8,12 +8,14 @@
     function breakout_iframe_shortcode($atts, $content = null) {
         $atts = shortcode_atts([
             'iframe_src' => '',
+            'iframe_title' => '',
         ], $atts);
 
         ob_start();
         ?>
         <div class="breakout p-0">
-            <iframe style="border: 0;" 
+            <iframe style="border: 0;"
+                    title="<?php echo $atts['iframe_title']; ?>" 
                     src="<?php echo esc_url($atts['iframe_src']); ?>"  
                     width="100%" 
                     height="400" 

@@ -35,7 +35,7 @@ function breakout_image_half($atts, $content = null) {
                 <div class="col-md-6">
                     <div class="bg-img bg-c" style="background-image: url('<?php echo esc_url($atts['image_src']); ?>');"></div>
                 </div>
-                <div class="col-md-6 px-md-5">
+                    <div class="col-md-6 px-md-5 mt-md-0 mt-4">
                     <?php if (!empty($atts['sub_title'])): ?>
                         <b class="spaced"><?php echo esc_html($atts['sub_title']); ?></b>
                     <?php endif; ?>
