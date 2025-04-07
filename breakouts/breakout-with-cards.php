@@ -49,7 +49,7 @@ function breakout_card_grid_shortcode($atts, $content = null) {
 
     ob_start();
     ?>
-    <div class="breakout text-center" style="background-image: url('<?php echo esc_url($atts['image_src']); ?>');" id="wrap_container">
+    <div class="breakout bg-img text-center" style="background-image: url('<?php echo esc_url($atts['image_src']); ?>');" id="wrap_container">
         <div class="large-wrapper">
             <?php if (!empty($atts['sub_header'])): ?>
                 <b class="spaced"><?php echo esc_html($atts['sub_header']); ?></b>

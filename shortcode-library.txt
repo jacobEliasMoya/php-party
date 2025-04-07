@@ -1,19 +1,19 @@
-SLIDER GET NOTICED
+# SLIDER GET NOTICED
 [breakout_slider_gn image_src="image_src" header="header" sub_header="sub_header"] 
     CTA Buttons here 
 [/breakout_slider_gn]
 
-BREAKOUT - SIMPLE LAYOUT - NO IMAGES
+# BREAKOUT - SIMPLE LAYOUT - NO IMAGES
 [breakout_h1_simple sub_title="sub_title" title="title"] content [/breakout_h1_simple]
 [breakout_h2_simple sub_title="sub_title" title="title"] content [/breakout_h2_simple]
 
-BREAKOUT WITH IMAGE - 2 COLS - IMG / TXT
+# BREAKOUT WITH IMAGE - 2 COLS - IMG / TXT
 [breakout_image_half image_src="image_src" sub_title="sub_title" title="title"] content [/breakout_image_half]
 
-BREAKOUT WITH BG IMAGE - 1 COL - HALF OVERLAYED TO EMPHASIZE TEXT
+# BREAKOUT WITH BG IMAGE - 1 COL - HALF OVERLAYED TO EMPHASIZE TEXT
 [breakout_half_overlay image_src="image_src" sub_header="sub_header" header="header"] content [/breakout_half_overlay]
 
-BREAKOUT WITH IFRAME
+# BREAKOUT WITH IFRAME
 [breakout_iframe iframe_src="iframe_src"][/breakout_iframe]
 
 ACCORDION
@@ -23,19 +23,19 @@ ACCORDION
 //_______________________________________________________________________________________________________________________
 
 
-// SHORTCODE COMBOS FOR SPEED
+## SHORTCODE COMBOS FOR SPEED
 
-BREAKOUT WITH CARDS - 3 COL - UNLIMITED CARDS
+# BREAKOUT WITH CARDS - 3 COL - UNLIMITED CARDS
 [breakout_card_grid image_src="image_src" sub_header="sub_header" header="header"]
     [breakout_card header="header"] content [/breakout_card]
 [/breakout_card]
 
-BREAKOUT WITH G REVIEW CARDS - 3 COL - UNLIMITED REVIEW CARDS
+# BREAKOUT WITH G REVIEW CARDS - 3 COL - UNLIMITED REVIEW CARDS
 [breakout_card_grid image_src="image_src" sub_header="sub_header" header="header"]
     [breakout_card header="header" reviews="reviews" pid="pid"] content [/breakout_card]
 [/breakout_card]
 
-BREAKOUT WITH ACCORDIONS
+# BREAKOUT WITH ACCORDIONS
 [breakout_h2_simple sub_title="sub_title" title="title"] 
-[accordion_section title="title"] content [/accordion_section]
+    [accordion_section title="title"] content [/accordion_section]
 [/breakout_h2_simple]
