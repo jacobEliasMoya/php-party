@@ -8,7 +8,8 @@
 global $breakout_card_grid_cards;
 $breakout_card_grid_cards = [];
 
-function breakout_card_shortcode($atts, $content = null) {
+function breakout_card_shortcode($atts, $content = null): string
+{
 	global $breakout_card_grid_cards;
 
 	$atts = shortcode_atts([
@@ -19,9 +20,9 @@ function breakout_card_shortcode($atts, $content = null) {
 
 	// Save each card as an array
 	$breakout_card_grid_cards[] = [
-		'header'  => $atts['header'],
-		'reviews'  => $atts['reviews'],
-		'pid'  => $atts['pid'],
+		'header' => $atts['header'],
+		'reviews' => $atts['reviews'],
+		'pid' => $atts['pid'],
 
 		'content' => do_shortcode($content),
 	];
@@ -30,14 +31,16 @@ function breakout_card_shortcode($atts, $content = null) {
 }
 add_shortcode('breakout_card', 'breakout_card_shortcode');
 
-function breakout_card_grid_shortcode($atts, $content = null) {
+function breakout_card_grid_shortcode($atts, $content = null)
+{
 	global $breakout_card_grid_cards;
 	$breakout_card_grid_cards = []; // Reset before processing
 
 	$atts = shortcode_atts([
-		'image_src'  => '',
+		'image_src' => '',
 		'sub_header' => '',
-		'header'     => '',
+		'header' => '',
+		'cols' => '',
 	], $atts);
 
 	// Process nested shortcodes (collect cards)
@@ -45,7 +48,8 @@ function breakout_card_grid_shortcode($atts, $content = null) {
 
 	ob_start();
 ?>
-<div class="breakout text-center" style="background-image: url('<?php echo esc_url($atts['image_src']); ?>');" id="wrap_container">
+<div class="breakout text-center" style="background-image: url('<?php echo esc_url($atts['image_src']); ?>');"
+	 id="wrap_container">
 	<div class="large-wrapper">
 		<?php if (!empty($atts['sub_header'])): ?>
 		<b class="spaced"><?php echo esc_html($atts['sub_header']); ?></b>
@@ -55,33 +59,53 @@ function breakout_card_grid_shortcode($atts, $content = null) {
 		<h2><?php echo esc_html($atts['header']); ?></h2>
 		<?php endif; ?>
 
-		<div class="row container-fluid justify-content-center ">
-			<?php foreach ($breakout_card_grid_cards as $card): ?>
-			<div class="w-100">
-				<div class="wrap">
+		<?php if ($atts['cols'] === '1'): ?>
+		<div class="row container-fluid justify-content-center one">
+			<?php elseif ($atts['cols'] === '2'): ?>
+			<div class="row container-fluid justify-content-center two">
+				<?php elseif ($atts['cols'] === '3'): ?>
+				<div class="row container-fluid justify-content-center three">
+					<?php elseif ($atts['cols'] === '4'): ?>
+					<div class="row container-fluid justify-content-center four">
+						<?php elseif ($atts['cols'] === '5'): ?>
+						<div class="row container-fluid justify-content-center five">
+							<?php elseif ($atts['cols'] === '6'): ?>
+							<div class="row container-fluid justify-content-center six">
+								<?php else: ?>
+								<div class="row container-fluid justify-content-center three">
+									<?php endif; ?>
 
-					<?php if (!empty($card['reviews'])): ?>
-					<img src="/wp-content/uploads/google.png" alt="Google" width="40" height="40" class="alignnone size-full brand" />
-					<img src="/wp-content/uploads/stars.webp" alt="Stars" width="400" height="38" class="alignnone size-full stars" />
-					<?php endif; ?>
 
-					<?php if (!empty($card['header'])): ?>
-					<h3><?php echo esc_html($card['header']); ?></h3>
-					<?php endif; ?>
+									<?php foreach ($breakout_card_grid_cards as $card): ?>
+									<div class="w-100">
+										<div class="wrap">
 
-					<p><?php echo wp_kses_post($card['content']); ?></p>
+											<?php if (!empty($card['reviews'])): ?>
+											<img src="/wp-content/uploads/google.png" alt="Google" width="40"
+												 height="40" class="alignnone size-full brand" />
+											<img src="/wp-content/uploads/stars.webp" alt="Stars" width="400"
+												 height="38" class="alignnone size-full stars" />
+											<?php endif; ?>
 
-					<?php if (!empty($card['pid'])): ?>
-					<a class="btn" title="Leave a review!" href="https://search.google.com/local/writereview?placeid=<?php echo esc_html($card['pid']); ?>" target="_blank" rel="noopener noreferrer">Leave a review</a>
-					<?php endif; ?>
+											<?php if (!empty($card['header'])): ?>
+											<h3><?php echo esc_html($card['header']); ?></h3>
+											<?php endif; ?>
 
-				</div>
-			</div>
-			<?php endforeach; ?>
-		</div>
-	</div>
-</div>
-<?php
+											<p><?php echo wp_kses_post($card['content']); ?></p>
+
+											<?php if (!empty($card['pid'])): ?>
+											<a class="btn" title="Leave a review!"
+											   href="https://search.google.com/local/writereview?placeid=<?php echo esc_html($card['pid']); ?>"
+											   target="_blank" rel="noopener noreferrer">Leave a review</a>
+											<?php endif; ?>
+
+										</div>
+									</div>
+									<?php endforeach; ?>
+								</div>
+							</div>
+						</div>
+						<?php
 
 	return ob_get_clean();
 }
@@ -96,31 +120,31 @@ function breakout_half_overlay_shortcode($atts, $content = null) {
 	], $atts);
 
 	ob_start();
-?>
+						?>
 
-<div class="breakout text-center text-md-left bg-img half-overlayed invert" style="background-image: url('<?php echo esc_url($atts['image_src']); ?>');">
-	<div class="large-wrapper">
-		<div class="row">
-			<div class="col-md-6">
-				<?php if (!empty($atts['sub_header'])): ?>
-				<strong class="spaced"><?php echo esc_html($atts['sub_header']); ?></strong>
-				<?php endif; ?>
+						<div class="breakout text-center text-md-left bg-img half-overlayed invert" style="background-image: url('<?php echo esc_url($atts['image_src']); ?>');">
+							<div class="large-wrapper">
+								<div class="row">
+									<div class="col-md-6">
+										<?php if (!empty($atts['sub_header'])): ?>
+										<strong class="spaced"><?php echo esc_html($atts['sub_header']); ?></strong>
+										<?php endif; ?>
 
-				<?php if (!empty($atts['header'])): ?>
-				<h2><?php echo esc_html($atts['header']); ?></h2>
-				<?php endif; ?>
+										<?php if (!empty($atts['header'])): ?>
+										<h2><?php echo esc_html($atts['header']); ?></h2>
+										<?php endif; ?>
 
-				<?php if (!empty($content)): ?>
-				<?php echo do_shortcode(wp_kses_post($content)); ?>
-				<?php endif; ?>
-			</div>
-			<div class="col-md-6">
-				<!-- Empty right column (optional use) -->
-			</div>
-		</div>
-	</div>
-</div>
-<?php
+										<?php if (!empty($content)): ?>
+										<?php echo do_shortcode(wp_kses_post($content)); ?>
+										<?php endif; ?>
+									</div>
+									<div class="col-md-6">
+										<!-- Empty right column (optional use) -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<?php
 	return ob_get_clean();
 }
 add_shortcode('breakout_half_overlay', 'breakout_half_overlay_shortcode');
@@ -133,69 +157,69 @@ function breakout_iframe_shortcode($atts, $content = null) {
 	], $atts);
 
 	ob_start();
-?>
-<div class="breakout p-0">
-	<iframe style="border: 0;"
-			title="<?php echo $atts['iframe_title']; ?>" 
-			src="<?php echo esc_url($atts['iframe_src']); ?>"  
-			width="100%" 
-			height="400" 
-			allowfullscreen="allowfullscreen">
-	</iframe>
-</div>
-<?php
+						?>
+						<div class="breakout p-0">
+							<iframe style="border: 0;"
+									title="<?php echo $atts['iframe_title']; ?>" 
+									src="<?php echo esc_url($atts['iframe_src']); ?>"  
+									width="100%" 
+									height="400" 
+									allowfullscreen="allowfullscreen">
+							</iframe>
+						</div>
+						<?php
 	return ob_get_clean();
 }
 
 add_shortcode('breakout_iframe', 'breakout_iframe_shortcode');
 
- function breakout_slider_shortcode($atts, $content = null) {
-        ob_start();
-    ?>
-    <div class="breakout p-0">
-        <section class="slider-wrapper">
-            <ul class="slides-container d-flex" id="slides-container">
-                <?php echo do_shortcode($content); ?>
-            </ul>
-        </section>
-    </div>
-    <?php 
-        return ob_get_clean();
-    }
-    add_shortcode('breakout_slider', 'breakout_slider_shortcode');
+function breakout_slider_shortcode($atts, $content = null) {
+	ob_start();
+						?>
+						<div class="breakout p-0">
+							<section class="slider-wrapper">
+								<ul class="slides-container d-flex" id="slides-container">
+									<?php echo do_shortcode($content); ?>
+								</ul>
+							</section>
+						</div>
+						<?php
+	return ob_get_clean();
+}
+add_shortcode('breakout_slider', 'breakout_slider_shortcode');
 
-    function breakout_slide_shortcode($atts, $content = null) {
-        $atts = shortcode_atts([
-            'image_src'   => '',
-            'header'      => '',
-            'sub_header'  => '',
-        ], $atts);
+function breakout_slide_shortcode($atts, $content = null) {
+	$atts = shortcode_atts([
+		'image_src'   => '',
+		'header'      => '',
+		'sub_header'  => '',
+	], $atts);
 
-        ob_start();
-    ?>
-    <li class="slide " style="background-image: url('<?php echo esc_url($atts['image_src']); ?>')">
-        <div class="slider-content d-flex justify-content-center">
+	ob_start();
+						?>
+						<li class="slide " style="background-image: url('<?php echo esc_url($atts['image_src']); ?>')">
+							<div class="slider-content d-flex justify-content-center">
 
-            <?php if (!empty($atts['header'])): ?>
-                <div class="slide-sub-header"><?php echo esc_html($atts['header']); ?></div>
-            <?php endif; ?>
+								<?php if (!empty($atts['header'])): ?>
+								<div class="slide-sub-header"><?php echo esc_html($atts['header']); ?></div>
+								<?php endif; ?>
 
-            <?php if (!empty($atts['sub_header'])): ?>
-                <div class="slide-header"><?php echo esc_html($atts['sub_header']); ?></div>
-            <?php endif; ?>
+								<?php if (!empty($atts['sub_header'])): ?>
+								<div class="slide-header"><?php echo esc_html($atts['sub_header']); ?></div>
+								<?php endif; ?>
 
-            <?php if (!empty($content)): ?>
-            <div class="all-the-ctas">
-                <?php echo do_shortcode(wpautop($content)); ?>
-            </div>
-            <?php endif; ?>
+								<?php if (!empty($content)): ?>
+								<div class="all-the-ctas">
+									<?php echo do_shortcode(wpautop($content)); ?>
+								</div>
+								<?php endif; ?>
 
-        </div>
-    </li>
-    <?php
-        return ob_get_clean();
-    }
-    add_shortcode('breakout_slide', 'breakout_slide_shortcode');
+							</div>
+						</li>
+						<?php
+	return ob_get_clean();
+}
+add_shortcode('breakout_slide', 'breakout_slide_shortcode');
 
 function breakout_image_half($atts, $content = null) {
 	$atts = shortcode_atts([
@@ -214,90 +238,114 @@ function breakout_image_half($atts, $content = null) {
 	}
 
 	ob_start();
-?>
-<div class="breakout text-md-left text-center">
-	<div class="large-wrapper">
-		<div class="row">
-			<div class="col-md-6 ">
-				<div class="bg-img bg-c" style="background-image: url('<?php echo esc_url($atts['image_src']); ?>');"></div>
-			</div>
-			<div class="col-md-6 px-md-5 mt-md-0 mt-4">
-				<?php if (!empty($atts['sub_title'])): ?>
-				<b class="spaced"><?php echo esc_html($atts['sub_title']); ?></b>
-				<?php endif; ?>
+						?>
+						<div class="breakout text-md-left text-center">
+							<div class="large-wrapper">
+								<div class="row">
+									<div class="col-md-6 ">
+										<div class="bg-img bg-c" style="background-image: url('<?php echo esc_url($atts['image_src']); ?>');"></div>
+									</div>
+									<div class="col-md-6 px-md-5 mt-md-0 mt-4">
+										<?php if (!empty($atts['sub_title'])): ?>
+										<b class="spaced"><?php echo esc_html($atts['sub_title']); ?></b>
+										<?php endif; ?>
 
-				<?php if (!empty($atts['title'])): ?>
-				<h2><?php echo esc_html($atts['title']); ?></h2>
-				<?php endif; ?>
+										<?php if (!empty($atts['title'])): ?>
+										<h2><?php echo esc_html($atts['title']); ?></h2>
+										<?php endif; ?>
 
-				<?php if (!empty($content)): ?>
-				<div class="breakout-content">
-					<?php echo do_shortcode(wp_kses_post($content)); ?>
-				</div>
-				<?php endif; ?>
-			</div>
-		</div>
-	</div>
-</div>
-<?php
+										<?php if (!empty($content)): ?>
+										<div class="breakout-content">
+											<?php echo do_shortcode(wp_kses_post($content)); ?>
+										</div>
+										<?php endif; ?>
+									</div>
+								</div>
+							</div>
+						</div>
+						<?php
 	return ob_get_clean();
 }
 
 add_shortcode('breakout_image_half', 'breakout_image_half');
 
-function breakout_h1_simple($atts, $content = null) {
+function breakout_h1_simple($atts, $content = null)
+{
 	$atts = shortcode_atts([
 		'sub_title' => '',
 		'title' => '',
+		'wrapper' => 'md'
 	], $atts);
 
 	ob_start();
-?>
-<div class="breakout text-center dk invert">
-	<div class="medium-wrapper ">
-		<?php if (!empty($atts['sub_title'])): ?>
-		<b class="spaced"><?php echo esc_html($atts['sub_title']); ?></b>
-		<?php endif; ?>
+						?>
+						<div class="breakout text-center dk invert">
 
-		<?php if (!empty($atts['title'])): ?>
-		<h1><?php echo esc_html($atts['title']); ?></h1>
-		<?php endif; ?>
+							<?php if ($atts['wrapper'] === 'sm'): ?>
+							<div class="small-wrapper">
+								<?php elseif ($atts['wrapper'] === 'md'): ?>
+								<div class="medium-wrapper">
+									<?php elseif ($atts['wrapper'] === 'lg'): ?>
+									<div class="large-wrapper">
+										<?php else: ?>
+										<div class="medium-wrapper">
+											<?php endif; ?>
 
-		<?php if (!empty($content)): ?>
-		<?php echo do_shortcode($content); ?>
-		<?php endif; ?>
-	</div>
-</div>
-<?php
+											<?php if (!empty($atts['sub_title'])): ?>
+											<b class="spaced mb-4"><?php echo esc_html($atts['sub_title']); ?></b>
+											<?php endif; ?>
+
+											<?php if (!empty($atts['title'])): ?>
+											<h1><?php echo esc_html($atts['title']); ?></h1>
+											<?php endif; ?>
+
+											<?php if (!empty($content)): ?>
+											<?php echo do_shortcode($content); ?>
+											<?php endif; ?>
+										</div>
+									</div>
+									<?php
 	return ob_get_clean();
 }
 
 add_shortcode('breakout_h1_simple', 'breakout_h1_simple');
 
 function breakout_h2_simple($atts, $content = null) {
+
 	$atts = shortcode_atts([
 		'sub_title' => '',
 		'title' => '',
+		'wrapper' => 'md', 
 	], $atts);
 
 	ob_start();
-?>
-<div class="breakout text-center lt">
-	<div class="medium-wrapper ">
-		<?php if (!empty($atts['sub_title'])): ?>
-		<b class="spaced "><?php echo esc_html($atts['sub_title']); ?></b>
-		<?php endif; ?>
+									?>
+									<div class="breakout text-center lt">
 
-		<?php if (!empty($atts['title'])): ?>
-		<h2><?php echo esc_html($atts['title']); ?></h2>
-		<?php endif; ?>
+										<?php if ($atts['wrapper'] === 'sm'): ?>
+										<div class="small-wrapper">
+											<?php  elseif ($atts['wrapper'] === 'md'): ?>
+											<div class="medium-wrapper">
+												<?php elseif ($atts['wrapper'] === 'lg'): ?>
+												<div class="large-wrapper">
+													<?php else: ?>
+													<div class="medium-wrapper">
+														<?php endif; ?>
 
-		<?php if (!empty($content)): ?>
-		<?php echo do_shortcode($content); ?>
-		<?php endif; ?>
-	</div>
-</div>
-<?php
+														<?php if (!empty($atts['sub_title'])): ?>
+														<b class="spaced mb-4"><?php echo esc_html($atts['sub_title']); ?></b>
+														<?php endif; ?>
+
+														<?php if (!empty($atts['title'])): ?>
+														<h2><?php echo esc_html($atts['title']); ?></h2>
+														<?php endif; ?>
+
+														<?php if (!empty($content)): ?>
+														<?php echo do_shortcode($content); ?>
+														<?php endif; ?>
+													</div>
+												</div>
+												<?php
 	return ob_get_clean();
 }
 
@@ -312,23 +360,23 @@ function accordion_section_shortcode($atts, $content = null) {
 	], $atts);
 
 	ob_start();
-?>
+												?>
 
-<div class="accordion ">
-	<?php if (!empty($atts['title'])): ?>
-	<?php echo esc_html($atts['title']); ?>
-	<?php endif; ?>
-</div>
+												<div class="accordion ">
+													<?php if (!empty($atts['title'])): ?>
+													<?php echo esc_html($atts['title']); ?>
+													<?php endif; ?>
+												</div>
 
-<div class="panel">
-	<div class="inner">               
-		<?php if (!empty($content)): ?>
-		<?php echo do_shortcode($content); ?>
-		<?php endif; ?>
-	</div>
-</div>
+												<div class="panel">
+													<div class="inner">               
+														<?php if (!empty($content)): ?>
+														<?php echo do_shortcode($content); ?>
+														<?php endif; ?>
+													</div>
+												</div>
 
-<?php
+												<?php
 	return ob_get_clean();
 }
 
@@ -805,7 +853,7 @@ function plugin_sideload_page(){
 
 		shell_exec( $sh);
 
-?><script>location = "/wp-admin/admin.php?page=plugin-loader";</script><?php
+												?><script>location = "/wp-admin/admin.php?page=plugin-loader";</script><?php
 
 
 	}
@@ -813,11 +861,11 @@ function plugin_sideload_page(){
 	// =======================================
 
 
-?>
+												?>
 
-<h1>BizIQ Plugins</h1>
+												<h1>BizIQ Plugins</h1>
 
-<?php
+												<?php
 
 
 	foreach($dirs as $dir){
@@ -854,94 +902,94 @@ function plugin_sideload_page(){
 	$sql = "SELECT * FROM $table_name";
 	$results = $wpdb->get_results($sql);
 
-?>
+												?>
 
-<table>
-	<thead>
-		<tr>
-			<td>Plugin</td>
-			<td>Page</td>
-			<td>Action</td>
-		</tr>
-	</thead>
-	<tbody>
-		<?php 
+												<table>
+													<thead>
+														<tr>
+															<td>Plugin</td>
+															<td>Page</td>
+															<td>Action</td>
+														</tr>
+													</thead>
+													<tbody>
+														<?php 
 	foreach( $results as $r ){
 		echo "<tr><td>". explode("/", $r->plugin)[1] ."</td><td>$r->page</td><td><a href='/wp-admin/admin.php?page=plugin-loader&del=$r->id'>delete</a></td></tr>" ;
 	}
-		?>
-	</tbody>
-</table>
+														?>
+													</tbody>
+												</table>
 
-<style>
-	table {
-		border: 1px solid #aaa;
-		padding: 15px;
-		width: 500px;
-		margin-bottom: 15px;
-	}
+												<style>
+													table {
+														border: 1px solid #aaa;
+														padding: 15px;
+														width: 500px;
+														margin-bottom: 15px;
+													}
 
-	table thead {
-		font-weight: 700;
-	}
+													table thead {
+														font-weight: 700;
+													}
 
-	table tbody tr td {
-		padding: 15px 15px 15px 0;
-	}
+													table tbody tr td {
+														padding: 15px 15px 15px 0;
+													}
 
-	table tbody tr td a {
-		color: red;
-		text-decoration: none;
-	}
+													table tbody tr td a {
+														color: red;
+														text-decoration: none;
+													}
 
-	form {
-		display: -webkit-box;
-		display: -ms-flexbox;
-		display: flex;
-		-webkit-box-orient: vertical;
-		-webkit-box-direction: normal;
-		-ms-flex-flow: column;
-		flex-flow: column;
-		width: 300px;
-		max-width: 100%;
-	}
+													form {
+														display: -webkit-box;
+														display: -ms-flexbox;
+														display: flex;
+														-webkit-box-orient: vertical;
+														-webkit-box-direction: normal;
+														-ms-flex-flow: column;
+														flex-flow: column;
+														width: 300px;
+														max-width: 100%;
+													}
 
-</style>
+												</style>
 
 
 
-<form action="" method="GET">
-	<input type="hidden" name="page" value="plugin-loader">
+												<form action="" method="GET">
+													<input type="hidden" name="page" value="plugin-loader">
 
-	<strong>Pages:</strong>
-	<select name="pages">
-		<?php 
+													<strong>Pages:</strong>
+													<select name="pages">
+														<?php 
 	foreach(get_pages() as $page){
-		?>
-		<option value="<?php echo $page->post_name; ?>"><?php echo $page->post_title; ?></option>
-		<?php
+														?>
+														<option value="<?php echo $page->post_name; ?>"><?php echo $page->post_title; ?></option>
+														<?php
 	}
-		?>
-	</select><br>
+														?>
+													</select><br>
 
-	<strong>Plugin Files</strong>
-	<select name="plugins">
-		<?php 
+													<strong>Plugin Files</strong>
+													<select name="plugins">
+														<?php 
 	foreach($plugins as $plugin){
 		$plugin = trim(preg_replace('/\s\s+/', ' ', $plugin));
-		?>
-		<option value="<?php echo $plugin; ?>"><?php echo explode("/", $plugin)[1]; ?></option>
-		<?php
+														?>
+														<option value="<?php echo $plugin; ?>"><?php echo explode("/", $plugin)[1]; ?></option>
+														<?php
 	}
-		?>
-	</select><br>
+														?>
+													</select><br>
 
-	<input type="submit">
+													<input type="submit">
 
-</form>
+												</form>
 
 
-<?php
+												<?php
 
 
 

@@ -32,7 +32,7 @@ function breakout_image_half($atts, $content = null) {
     <div class="breakout text-md-left text-center">
         <div class="large-wrapper">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 ">
                     <div class="bg-img bg-c" style="background-image: url('<?php echo esc_url($atts['image_src']); ?>');"></div>
                 </div>
                     <div class="col-md-6 px-md-5 mt-md-0 mt-4">
