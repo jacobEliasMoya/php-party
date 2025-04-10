@@ -11,12 +11,14 @@
 
 <?php
 
-function breakout_image_half($atts, $content = null) {
+function breakout_image_half($atts, $content = null)
+{
     $atts = shortcode_atts([
         'image_src' => '',
-        'alt'       => '',
+        'alt' => '',
         'sub_title' => '',
-        'title'     => '',
+        'title' => '',
+        'swap' => '',
     ], $atts);
 
     // Auto-generate alt from filename if none provided
@@ -32,29 +34,42 @@ function breakout_image_half($atts, $content = null) {
     <div class="breakout text-md-left text-center">
         <div class="large-wrapper">
             <div class="row">
-                <div class="col-md-6 ">
-                    <div class="bg-img bg-c" style="background-image: url('<?php echo esc_url($atts['image_src']); ?>');"></div>
-                </div>
-                    <div class="col-md-6 px-md-5 mt-md-0 mt-4">
-                    <?php if (!empty($atts['sub_title'])): ?>
-                        <b class="spaced"><?php echo esc_html($atts['sub_title']); ?></b>
-                    <?php endif; ?>
 
-                    <?php if (!empty($atts['title'])): ?>
-                        <h2><?php echo esc_html($atts['title']); ?></h2>
-                    <?php endif; ?>
+                <?php if (!empty($atts['swap'])): ?>
+                    <div class="col-md-6 order-1 order-md-2">
+                    <?php else: ?>
+                        <div class="col-md-6 ">
+                        <?php endif; ?>
 
-                    <?php if (!empty($content)): ?>
-                        <div class="breakout-content">
-                            <?php echo do_shortcode(wp_kses_post($content)); ?>
+                        <div class="bg-img bg-c"
+                            style="background-image: url('<?php echo esc_url($atts['image_src']); ?>');"></div>
+                    </div>
+
+                    <?php if (!empty($atts['swap'])): ?>
+                        <div class="col-md-6 px-md-5 mt-md-0 mt-4 order-md-1 order-2">
+                        <?php else: ?>
+                            <div class="col-md-6 px-md-5 mt-md-0 mt-4">
+                            <?php endif; ?>
+
+                            <?php if (!empty($atts['sub_title'])): ?>
+                                <b class="spaced"><?php echo esc_html($atts['sub_title']); ?></b>
+                            <?php endif; ?>
+
+                            <?php if (!empty($atts['title'])): ?>
+                                <h2><?php echo esc_html($atts['title']); ?></h2>
+                            <?php endif; ?>
+
+                            <?php if (!empty($content)): ?>
+                                <div class="breakout-content">
+                                    <?php echo do_shortcode(wp_kses_post($content)); ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
-                    <?php endif; ?>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <?php
-    return ob_get_clean();
+            <?php
+            return ob_get_clean();
 }
 
 add_shortcode('breakout_image_half', 'breakout_image_half');

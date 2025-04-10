@@ -11,8 +11,8 @@
 # BREAKOUT WITH IMAGE - 2 COLS - IMG / TXT
 [breakout_image_half image_src="image_src" sub_title="sub_title" title="title"] content [/breakout_image_half]
 
-# BREAKOUT WITH BG IMAGE - 1 COL - HALF OVERLAYED TO EMPHASIZE TEXT
-[breakout_half_overlay image_src="image_src" sub_header="sub_header" header="header"] content [/breakout_half_overlay]
+# BREAKOUT WITH BG IMAGE - 1 COL - HALF OVERLAYED TO EMPHASIZE TEXT - swap 
+[breakout_half_overlay image_src="image_src" sub_header="sub_header" header="header" swap=""] content [/breakout_half_overlay]
 
 # BREAKOUT WITH IFRAME
 [breakout_iframe iframe_src="iframe_src"][/breakout_iframe]
